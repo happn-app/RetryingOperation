@@ -1,6 +1,6 @@
 Pod::Spec.new do |spec|
 	spec.name = "RetryingOperation"
-	spec.version = "1.0.0"
+	spec.version = "1.0.1"
 	spec.summary = "Retrying operations with no persistence, wrapped in a single Foundation Operation, in Swift"
 	spec.homepage = "https://www.happn.com/"
 	spec.license = {type: 'TBD', file: 'License.txt'}
