@@ -794,7 +794,6 @@
 				INFOPLIST_FILE = "Xcode Supporting Files/Framework-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MACH_O_TYPE = staticlib;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.happn.RetryingOperation-tvOS";
 				PRODUCT_NAME = RetryingOperation;
 				SDKROOT = appletvos;
@@ -820,7 +819,6 @@
 				INFOPLIST_FILE = "Xcode Supporting Files/Framework-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MACH_O_TYPE = staticlib;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.happn.RetryingOperation-tvOS";
 				PRODUCT_NAME = RetryingOperation;
 				SDKROOT = appletvos;
@@ -884,7 +882,6 @@
 				INFOPLIST_FILE = "Xcode Supporting Files/Framework-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
-				MACH_O_TYPE = staticlib;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.happn.RetryingOperation-macOS";
 				PRODUCT_NAME = RetryingOperation;
 				SDKROOT = macosx;
@@ -912,7 +909,6 @@
 				INFOPLIST_FILE = "Xcode Supporting Files/Framework-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
-				MACH_O_TYPE = staticlib;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.happn.RetryingOperation-macOS";
 				PRODUCT_NAME = RetryingOperation;
 				SDKROOT = macosx;
@@ -1023,7 +1019,6 @@
 				INFOPLIST_FILE = "Xcode Supporting Files/Framework-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MACH_O_TYPE = staticlib;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.happn.RetryingOperation-iOS";
 				PRODUCT_NAME = RetryingOperation;
 				SDKROOT = iphoneos;
@@ -1049,7 +1044,6 @@
 				INFOPLIST_FILE = "Xcode Supporting Files/Framework-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MACH_O_TYPE = staticlib;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.happn.RetryingOperation-iOS";
 				PRODUCT_NAME = RetryingOperation;
 				SDKROOT = iphoneos;
