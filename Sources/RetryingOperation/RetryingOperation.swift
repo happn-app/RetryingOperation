@@ -123,6 +123,17 @@ open class RetryingOperation : Operation {
 		else                                                          {NSLog("Deiniting retrying operation %@", String(describing: Unmanaged.passUnretained(self).toOpaque()))}
 	}
 	
+	/** `isAsynchronous` **must** be overwritten for RetryingOperations. The
+	rationale is: RetryingOperations are _much_ easier than standard Operations
+	to create, in particular asynchronous operations. By default an Operation is
+	synchronous, which, with no modifications on the isAsynchronous property,
+	would make a RetryingOperation synchronous by default too. This is not such a
+	good behavior; we prefer forcing subclassers to explicitely say whether
+	they're creating a synchronous or an asynchronous operation. */
+	open override var isAsynchronous: Bool {
+		fatalError("isAsynchronous is abstract on a RetryingOperation")
+	}
+	
 	public final override func start() {
 		if !isAsynchronous {super.start()}
 		else {
