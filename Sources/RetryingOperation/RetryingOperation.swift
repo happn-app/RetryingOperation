@@ -8,7 +8,9 @@
 
 import Foundation
 
-import os.log
+#if canImport(os)
+	import os.log
+#endif
 
 
 
@@ -119,8 +121,10 @@ open class RetryingOperation : Operation {
 	}
 	
 	deinit {
-		if #available(OSX 10.12, tvOS 10.0, iOS 10.0, watchOS 3.0, *) {os_log("Deiniting retrying operation %{public}@", type: .debug, String(describing: Unmanaged.passUnretained(self).toOpaque()))}
-		else                                                          {NSLog("Deiniting retrying operation %@", String(describing: Unmanaged.passUnretained(self).toOpaque()))}
+		#if canImport(os)
+			if #available(OSX 10.12, tvOS 10.0, iOS 10.0, watchOS 3.0, *) {os_log("Deiniting retrying operation %{public}@", type: .debug, String(describing: Unmanaged.passUnretained(self).toOpaque()))}
+			else                                                          {NSLog("Deiniting retrying operation %@", String(describing: Unmanaged.passUnretained(self).toOpaque()))}
+		#endif
 	}
 	
 	/** `isAsynchronous` **must** be overwritten for RetryingOperations. The
@@ -385,10 +389,12 @@ open class RetryingOperation : Operation {
 	
 	private func _unsafeRetry(withHelpers helpers: [RetryHelper]?) {
 		guard retryingState.isWaitingToRetry else {
-			if #available(OSX 10.12, tvOS 10.0, iOS 10.0, watchOS 3.0, *) {os_log("Trying to force retry operation %{public}p which is not waiting to be retried...", self)}
-			else                                                          {NSLog("Trying to force retry operation %p which is not waiting to be retried...", self)}
-			if #available(OSX 10.12, tvOS 10.0, iOS 10.0, watchOS 3.0, *) {os_log("   Don't worry it might be normal (race in retry helpers). Doing nothing. FYI, current status is %{public}@.", String(describing: retryingState))}
-			else                                                          {NSLog("   Don't worry it might be normal (race in retry helpers). Doing nothing. FYI, current status is %@.", String(describing: retryingState))}
+			#if canImport(os)
+				if #available(OSX 10.12, tvOS 10.0, iOS 10.0, watchOS 3.0, *) {os_log("Trying to force retry operation %{public}p which is not waiting to be retried...", self)}
+				else                                                          {NSLog("Trying to force retry operation %p which is not waiting to be retried...", self)}
+				if #available(OSX 10.12, tvOS 10.0, iOS 10.0, watchOS 3.0, *) {os_log("   Don't worry it might be normal (race in retry helpers). Doing nothing. FYI, current status is %{public}@.", String(describing: retryingState))}
+				else                                                          {NSLog("   Don't worry it might be normal (race in retry helpers). Doing nothing. FYI, current status is %@.", String(describing: retryingState))}
+			#endif
 			return
 		}
 		
