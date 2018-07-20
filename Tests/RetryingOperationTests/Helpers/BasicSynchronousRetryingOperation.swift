@@ -25,4 +25,8 @@ class BasicSynchronousRetryingOperation : RetryingOperation {
 		else           {baseOperationEnded()}
 	}
 	
+	override var isAsynchronous: Bool {
+		return false
+	}
+	
 }
