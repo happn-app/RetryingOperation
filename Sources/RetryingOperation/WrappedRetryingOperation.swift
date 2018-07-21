@@ -63,14 +63,12 @@ public final class RetryableOperationWrapper<T> : RetryingOperation where T : Re
 			currentBaseOperation = op
 		}
 		
-		currentBaseOperation.completionBlock = {
-			self.currentBaseOperation.completionBlock = nil
-			
-			let canRetry = (self.maximumNumberOfRetries < 0 || self.numberOfRetries! < self.maximumNumberOfRetries)
-			self.baseOperationEnded(retryHelpers: canRetry ? self.currentBaseOperation.retryHelpers(from: self) : nil)
-		}
 		if let q = baseOperationQueue {q.addOperation(currentBaseOperation)}
 		else                          {currentBaseOperation.start()}
+		currentBaseOperation.waitUntilFinished()
+		
+		let canRetry = (self.maximumNumberOfRetries < 0 || self.numberOfRetries! < self.maximumNumberOfRetries)
+		self.baseOperationEnded(retryHelpers: canRetry ? self.currentBaseOperation.retryHelpers(from: self) : nil)
 	}
 	
 	public override func cancelBaseOperation() {
@@ -78,7 +76,7 @@ public final class RetryableOperationWrapper<T> : RetryingOperation where T : Re
 	}
 	
 	public override var isAsynchronous: Bool {
-		return true
+		return false
 	}
 	
 }

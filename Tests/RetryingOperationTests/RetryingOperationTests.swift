@@ -44,13 +44,7 @@ class RetryingOperationTests: XCTestCase {
 		let op = BasicSynchronousRetryableOperation(nRetries: 0, nStart: 1, checkStr: "")
 		let rop = RetryableOperationWrapper(baseOperation: op, baseOperationQueue: nil)
 		operationQueue.addOperation(rop)
-		#if !os(Linux)
-			operationQueue.waitUntilAllOperationsAreFinished()
-		#else
-			/* OperationsQueue’s waitUntilAllOperationsAreFinished does not work
-			 * for async operations on Linux… */
-			rop.waitUntilFinished()
-		#endif
+		operationQueue.waitUntilAllOperationsAreFinished() /* Works on Linux too because op is synchronous. */
 		XCTAssertEqual(rop.currentBaseOperation.checkStr, ".")
 	}
 	
@@ -78,13 +72,7 @@ class RetryingOperationTests: XCTestCase {
 		let op = BasicSynchronousRetryableOperation(nRetries: 1, nStart: 1, checkStr: "")
 		let rop = RetryableOperationWrapper(baseOperation: op, baseOperationQueue: nil)
 		operationQueue.addOperation(rop)
-		#if !os(Linux)
-			operationQueue.waitUntilAllOperationsAreFinished()
-		#else
-			/* OperationsQueue’s waitUntilAllOperationsAreFinished does not work
-			 * for async operations on Linux… */
-			rop.waitUntilFinished()
-		#endif
+		operationQueue.waitUntilAllOperationsAreFinished() /* Works on Linux too because op is synchronous. */
 		XCTAssertEqual(rop.currentBaseOperation.checkStr, "..")
 	}
 	
@@ -93,13 +81,7 @@ class RetryingOperationTests: XCTestCase {
 		let rop = RetryableOperationWrapper(baseOperation: op, baseOperationQueue: nil)
 		operationQueue.addOperation(rop)
 		op.cancel()
-		#if !os(Linux)
-			operationQueue.waitUntilAllOperationsAreFinished()
-		#else
-			/* OperationsQueue’s waitUntilAllOperationsAreFinished does not work
-			 * for async operations on Linux… */
-			rop.waitUntilFinished()
-		#endif
+		operationQueue.waitUntilAllOperationsAreFinished() /* Works on Linux too because op is synchronous. */
 		XCTAssertEqual(rop.currentBaseOperation.checkStr, ".")
 	}
 	
