@@ -347,27 +347,47 @@ open class RetryingOperation : Operation {
 	
 	private var retryingState = RetryingOperationState.inited {
 		willSet(newState) {
-			let newStateExecuting = newState.isRunningOrWaitingToRetry
-			let oldStateExecuting = retryingState.isRunningOrWaitingToRetry
-			let newStateFinished = newState.isFinished
-			let oldStateFinished = retryingState.isFinished
-			
 			willChangeValue(forKey: "retryingState")
-			if newStateExecuting != oldStateExecuting {willChangeValue(forKey: "isExecuting")}
-			if newStateFinished  != oldStateFinished  {willChangeValue(forKey: "isFinished")}
+			
+			if isAsynchronous {
+				/* https://github.com/apple/swift-corelibs-foundation/blob/swift-4.1.2-RELEASE/Foundation/Operation.swift
+				 * On Linux, the Foundation implementation differs from the close-
+				 * source one we got on Apple’s platforms. Mainly, the original
+				 * implementation expected changes to isExecuting and isFinished to
+				 * be KVO-compliant and relied heavily on these notifications to
+				 * act on the state of the operation.
+				 * In pure Swift (no ObjC-runtime), KVO is not available (yet?). So
+				 * a workaround has been implemented to mimic the old behaviour.
+				 * However this (among other implementation details) results in a
+				 * dispatch_leave_group method to be called twice (which triggers an
+				 * assert and makes the program crash) for synchronous operations
+				 * when we manually managed these properties.
+				 * So for synchronous operations, the isExecuting and isFinished
+				 * properties are managed by Operation itself. */
+				let newStateExecuting = newState.isRunningOrWaitingToRetry
+				let oldStateExecuting = retryingState.isRunningOrWaitingToRetry
+				let newStateFinished = newState.isFinished
+				let oldStateFinished = retryingState.isFinished
+				
+				if newStateExecuting != oldStateExecuting {willChangeValue(forKey: "isExecuting")}
+				if newStateFinished  != oldStateFinished  {willChangeValue(forKey: "isFinished")}
+			}
 			
 			retryStateSemaphore.wait()
 		}
 		didSet(oldState) {
 			retryStateSemaphore.signal()
 			
-			let newStateExecuting = retryingState.isRunningOrWaitingToRetry
-			let oldStateExecuting = oldState.isRunningOrWaitingToRetry
-			let newStateFinished = retryingState.isFinished
-			let oldStateFinished = oldState.isFinished
+			if isAsynchronous {
+				let newStateExecuting = retryingState.isRunningOrWaitingToRetry
+				let oldStateExecuting = oldState.isRunningOrWaitingToRetry
+				let newStateFinished = retryingState.isFinished
+				let oldStateFinished = oldState.isFinished
+				
+				if newStateFinished  != oldStateFinished  {didChangeValue(forKey: "isFinished")}
+				if newStateExecuting != oldStateExecuting {didChangeValue(forKey: "isExecuting")}
+			}
 			
-			if newStateFinished  != oldStateFinished  {didChangeValue(forKey: "isFinished")}
-			if newStateExecuting != oldStateExecuting {didChangeValue(forKey: "isExecuting")}
 			didChangeValue(forKey: "retryingState")
 		}
 	}
@@ -431,11 +451,15 @@ open class RetryingOperation : Operation {
 	private var isBaseOperationRunning = false
 	
 	public final override var isExecuting: Bool {
+		guard isAsynchronous else {return super.isExecuting}
+		
 		retryStateSemaphore.wait(); defer {retryStateSemaphore.signal()}
 		return retryingState.isRunningOrWaitingToRetry
 	}
 	
 	public final override var isFinished: Bool {
+		guard isAsynchronous else {return super.isFinished}
+		
 		retryStateSemaphore.wait(); defer {retryStateSemaphore.signal()}
 		return retryingState.isFinished
 	}
