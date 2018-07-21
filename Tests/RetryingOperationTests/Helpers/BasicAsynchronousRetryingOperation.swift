@@ -13,16 +13,21 @@ import RetryingOperation
 
 class BasicAsynchronousRetryingOperation : RetryingOperation {
 	
+	let nRetries: Int
 	var checkStr = ""
 	
 	private var nStart = 0
 	
+	init(nRetries r: Int) {
+		nRetries = r
+	}
+	
 	override func startBaseOperation(isRetry: Bool) {
 		nStart += 1
 		checkStr += "."
-		DispatchQueue.global(qos: .default).asyncAfter(deadline: DispatchTime.now() + 0.25) {
-			if self.nStart <= 1 {self.baseOperationEnded(needsRetryIn: 0.1)}
-			else                {self.baseOperationEnded()}
+		DispatchQueue.global(qos: .default).asyncAfter(deadline: .now() + 0.25) {
+			if self.nStart <= self.nRetries {self.baseOperationEnded(needsRetryIn: 0.1)}
+			else                            {self.baseOperationEnded()}
 		}
 	}
 	

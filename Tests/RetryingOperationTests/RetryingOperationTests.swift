@@ -20,30 +20,52 @@ class RetryingOperationTests: XCTestCase {
 		super.tearDown()
 	}
 	
-	func testBasicSynchronousRetryingOperation() {
-		let op = BasicSynchronousRetryingOperation()
+	func testBasicSynchronousRetryingOperationNoRetries() {
+		let op = BasicSynchronousRetryingOperation(nRetries: 0)
+		operationQueue.addOperation(op)
+		operationQueue.waitUntilAllOperationsAreFinished()
+		XCTAssertEqual(op.checkStr, ".")
+	}
+	
+	func testBasicAsynchronousRetryingOperationNoRetries() {
+		let op = BasicAsynchronousRetryingOperation(nRetries: 0)
+		operationQueue.addOperation(op)
+		operationQueue.waitUntilAllOperationsAreFinished()
+		XCTAssertEqual(op.checkStr, ".")
+	}
+	
+	func testBasicSynchronousRetryableOperationInWrapperNoRetries() {
+		let op = BasicSynchronousRetryableOperation(nRetries: 0, nStart: 1, checkStr: "")
+		let rop = RetryableOperationWrapper(baseOperation: op, baseOperationQueue: nil)
+		operationQueue.addOperation(rop)
+		operationQueue.waitUntilAllOperationsAreFinished()
+		XCTAssertEqual(rop.currentBaseOperation.checkStr, ".")
+	}
+	
+	func testBasicSynchronousRetryingOperation1Retry() {
+		let op = BasicSynchronousRetryingOperation(nRetries: 1)
 		operationQueue.addOperation(op)
 		operationQueue.waitUntilAllOperationsAreFinished()
 		XCTAssertEqual(op.checkStr, "..")
 	}
 	
-	func testBasicAsynchronousRetryingOperation() {
-		let op = BasicAsynchronousRetryingOperation()
+	func testBasicAsynchronousRetryingOperation1Retry() {
+		let op = BasicAsynchronousRetryingOperation(nRetries: 1)
 		operationQueue.addOperation(op)
 		operationQueue.waitUntilAllOperationsAreFinished()
 		XCTAssertEqual(op.checkStr, "..")
 	}
 	
-	func testBasicSynchronousRetryableOperationInWrapper() {
-		let op = BasicSynchronousRetryableOperation(nStart: 1, checkStr: "")
+	func testBasicSynchronousRetryableOperationInWrapper1Retry() {
+		let op = BasicSynchronousRetryableOperation(nRetries: 1, nStart: 1, checkStr: "")
 		let rop = RetryableOperationWrapper(baseOperation: op, baseOperationQueue: nil)
 		operationQueue.addOperation(rop)
 		operationQueue.waitUntilAllOperationsAreFinished()
 		XCTAssertEqual(rop.currentBaseOperation.checkStr, "..")
 	}
 	
-	func testCancelledBasicSynchronousRetryableOperationInWrapper() {
-		let op = BasicSynchronousRetryableOperation(nStart: 1, checkStr: "")
+	func testCancelledBasicSynchronousRetryableOperationInWrapper1Retry() {
+		let op = BasicSynchronousRetryableOperation(nRetries: 1, nStart: 1, checkStr: "")
 		let rop = RetryableOperationWrapper(baseOperation: op, baseOperationQueue: nil)
 		operationQueue.addOperation(rop)
 		op.cancel()
@@ -53,10 +75,13 @@ class RetryingOperationTests: XCTestCase {
 	
 	/* Fill this array with all the tests to have Linux testing compatibility. */
 	static var allTests = [
-		("testBasicSynchronousRetryingOperation", testBasicSynchronousRetryingOperation),
-		("testBasicAsynchronousRetryingOperation", testBasicAsynchronousRetryingOperation),
-		("testBasicSynchronousRetryableOperationInWrapper", testBasicSynchronousRetryableOperationInWrapper),
-		("testCancelledBasicSynchronousRetryableOperationInWrapper", testCancelledBasicSynchronousRetryableOperationInWrapper)
+		("testBasicSynchronousRetryingOperationNoRetries", testBasicSynchronousRetryingOperationNoRetries),
+		("testBasicAsynchronousRetryingOperationNoRetries", testBasicAsynchronousRetryingOperationNoRetries),
+		("testBasicSynchronousRetryableOperationInWrapperNoRetries", testBasicSynchronousRetryableOperationInWrapperNoRetries),
+		("testBasicSynchronousRetryingOperation1Retry", testBasicSynchronousRetryingOperation1Retry),
+		("testBasicAsynchronousRetryingOperation1Retry", testBasicAsynchronousRetryingOperation1Retry),
+		("testBasicSynchronousRetryableOperationInWrapper1Retry", testBasicSynchronousRetryableOperationInWrapper1Retry),
+		("testCancelledBasicSynchronousRetryableOperationInWrapper1Retry", testCancelledBasicSynchronousRetryableOperationInWrapper1Retry)
 	]
 	
 }

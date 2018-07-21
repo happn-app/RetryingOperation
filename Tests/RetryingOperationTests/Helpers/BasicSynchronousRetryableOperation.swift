@@ -13,11 +13,14 @@ import RetryingOperation
 
 class BasicSynchronousRetryableOperation : Operation, RetryableOperation {
 	
-	let nStart: Int
+	let nRetries: Int
 	var checkStr: String
 	
-	required init(nStart n: Int, checkStr str: String) {
+	private let nStart: Int
+	
+	required init(nRetries r: Int, nStart n: Int, checkStr str: String) {
 		nStart = n
+		nRetries = r
 		checkStr = str
 	}
 	
@@ -27,11 +30,11 @@ class BasicSynchronousRetryableOperation : Operation, RetryableOperation {
 	}
 	
 	func retryHelpers<T>(from wrapper: RetryableOperationWrapper<T>) -> [RetryHelper]? {
-		return nStart <= 1 ? [RetryingOperation.TimerRetryHelper(retryDelay: 0.1, retryingOperation: wrapper)] : nil
+		return nStart <= nRetries ? [RetryingOperation.TimerRetryHelper(retryDelay: 0.1, retryingOperation: wrapper)] : nil
 	}
 	
 	func operationForRetrying() -> Self {
-		return type(of: self).init(nStart: nStart + 1, checkStr: checkStr)
+		return type(of: self).init(nRetries: nRetries, nStart: nStart + 1, checkStr: checkStr)
 	}
 	
 }
