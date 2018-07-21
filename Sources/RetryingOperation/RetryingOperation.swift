@@ -154,7 +154,7 @@ open class RetryingOperation : Operation {
 		var retry = true
 		var isRetry = false
 		mainLoop: while retry {
-			var helpers: [RetryHelper]? = retryQueue.sync {
+			var helpers: [RetryHelper]? = retryQueue.sync{
 				_startBaseOperationOnQueue(isRetry: isRetry); assert(!isBaseOperationRunning)
 				let ret = syncOperationRetryHelpers; syncOperationRetryHelpers = nil
 				if ret != nil {retryingState = .waitingToRetry(nRetries)}
@@ -184,7 +184,7 @@ open class RetryingOperation : Operation {
 					guard !isCancelled else {break mainLoop}
 					Thread.sleep(forTimeInterval: timeToWait.map{ max(0, min(0.5, $0 + startWaitTime.timeIntervalSinceNow)) } ?? 0.5)
 					
-					let shouldRefreshHelpers: Bool = retryQueue.sync {
+					let shouldRefreshHelpers: Bool = retryQueue.sync{
 						guard syncRefreshRetryHelpers else {return false}
 						helpers = syncOperationRetryHelpers
 						syncOperationRetryHelpers = nil
@@ -276,7 +276,7 @@ open class RetryingOperation : Operation {
 			return
 		}
 		
-		retryQueue.async {
+		retryQueue.async{
 			assert(self.isExecuting && self.isBaseOperationRunning)
 			self.isBaseOperationRunning = false
 			
@@ -411,7 +411,7 @@ open class RetryingOperation : Operation {
 		super.cancel()
 		guard isAsynchronous else {cancelBaseOperation(); return}
 		
-		retryQueue.async {
+		retryQueue.async{
 			if self.retryHelpers != nil {
 				assert(self.retryingState.isWaitingToRetry)
 				

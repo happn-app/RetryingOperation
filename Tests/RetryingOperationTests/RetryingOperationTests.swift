@@ -29,7 +29,7 @@ class RetryingOperationTests: XCTestCase {
 	
 	func testBasicAsynchronousRetryingOperation() {
 		let op = BasicAsynchronousRetryingOperation()
-		self.operationQueue.addOperation(op)
+		operationQueue.addOperation(op)
 		operationQueue.waitUntilAllOperationsAreFinished()
 		XCTAssertEqual(op.checkStr, "..")
 	}
@@ -37,7 +37,7 @@ class RetryingOperationTests: XCTestCase {
 	func testBasicSynchronousRetryableOperationInWrapper() {
 		let op = BasicSynchronousRetryableOperation(nStart: 1, checkStr: "")
 		let rop = RetryableOperationWrapper(baseOperation: op, baseOperationQueue: nil)
-		self.operationQueue.addOperation(rop)
+		operationQueue.addOperation(rop)
 		operationQueue.waitUntilAllOperationsAreFinished()
 		XCTAssertEqual(rop.currentBaseOperation.checkStr, "..")
 	}
@@ -45,7 +45,7 @@ class RetryingOperationTests: XCTestCase {
 	func testCancelledBasicSynchronousRetryableOperationInWrapper() {
 		let op = BasicSynchronousRetryableOperation(nStart: 1, checkStr: "")
 		let rop = RetryableOperationWrapper(baseOperation: op, baseOperationQueue: nil)
-		self.operationQueue.addOperation(rop)
+		operationQueue.addOperation(rop)
 		op.cancel()
 		operationQueue.waitUntilAllOperationsAreFinished()
 		XCTAssertEqual(rop.currentBaseOperation.checkStr, ".")
