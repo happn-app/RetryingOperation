@@ -10,9 +10,7 @@ import Foundation
 
 
 
-#if !os(Linux)
-
-/* Not supported w/ 4.2 on Linux yet. (Apparently, this is touchy on macOS too…)
+/* This syntax is touchy apparently.
  * On Swift 5, will be officially supported and have the following syntax:
  *    protocol RetryableOperation : Operation */
 public protocol RetryableOperation where Self : Operation {
@@ -85,5 +83,3 @@ public final class RetryableOperationWrapper<T> : RetryingOperation where T : Re
 	}
 	
 }
-
-#endif

@@ -11,8 +11,6 @@ import RetryingOperation
 
 
 
-#if !os(Linux)
-
 class BasicSynchronousRetryableOperation : Operation, RetryableOperation {
 	
 	let nRetries: Int
@@ -40,5 +38,3 @@ class BasicSynchronousRetryableOperation : Operation, RetryableOperation {
 	}
 	
 }
-
-#endif
