@@ -63,6 +63,7 @@ public final class RetryableOperationWrapper<T> : RetryingOperation where T : Re
 		
 		if isRetry {
 			guard let op: T = try? currentBaseOperation.operationForRetrying() else {return baseOperationEnded()}
+			assert(!op.isFinished && !op.isExecuting) /* Basic checks on operation to verify it is valid. */
 			currentBaseOperation = op
 		}
 		
