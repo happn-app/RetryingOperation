@@ -100,15 +100,4 @@ class RetryingOperationTests: XCTestCase {
 		XCTAssertEqual(rop.currentBaseOperation.checkStr, ".")
 	}
 	
-	/* Fill this array with all the tests to have Linux testing compatibility. */
-	static var allTests = [
-		("testBasicSynchronousRetryingOperationNoRetries", testBasicSynchronousRetryingOperationNoRetries),
-		("testBasicAsynchronousRetryingOperationNoRetries", testBasicAsynchronousRetryingOperationNoRetries),
-		("testBasicSynchronousRetryableOperationInWrapperNoRetries", testBasicSynchronousRetryableOperationInWrapperNoRetries),
-		("testBasicSynchronousRetryingOperation1Retry", testBasicSynchronousRetryingOperation1Retry),
-		("testBasicAsynchronousRetryingOperation1Retry", testBasicAsynchronousRetryingOperation1Retry),
-		("testBasicSynchronousRetryableOperationInWrapper1Retry", testBasicSynchronousRetryableOperationInWrapper1Retry),
-		("testCancelledBasicSynchronousRetryableOperationInWrapper1Retry", testCancelledBasicSynchronousRetryableOperationInWrapper1Retry)
-	]
-	
 }
