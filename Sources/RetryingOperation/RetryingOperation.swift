@@ -148,6 +148,7 @@ open class RetryingOperation : Operation {
 	
 	/* Note: The synchronous implementation deserves a little more tests.
 	 *       Currently it is only very lightly tested with a few unit tests. */
+	#warning("TODO: Verify the retry helper implementation. What’s the filteredHelpers var for? Does the implementation has the correct behaviour?")
 	public final override func main() {
 		assert(!isAsynchronous)
 		
