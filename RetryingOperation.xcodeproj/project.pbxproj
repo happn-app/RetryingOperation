@@ -40,7 +40,7 @@
 		7B80A9CF2236ABBE00CECD67 /* RetryingOperation.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = RetryingOperation.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7B8BD01A20026E8C009BE667 /* RetryingOperation.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = RetryingOperation.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7B8BD01D20026E8C009BE667 /* Framework-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Framework-Info.plist"; sourceTree = "<group>"; };
-		7B8BD02220026E8C009BE667 /* RetryingOperation-Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "RetryingOperation-Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		7B8BD02220026E8C009BE667 /* RetryingOperationTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RetryingOperationTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7B8BD02920026E8C009BE667 /* Test-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Test-Info.plist"; sourceTree = "<group>"; };
 		7B8BD032200274B9009BE667 /* LinuxMain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LinuxMain.swift; sourceTree = "<group>"; };
 		7B8BD034200274B9009BE667 /* RetryingOperationTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RetryingOperationTests.swift; sourceTree = "<group>"; };
@@ -99,7 +99,7 @@
 			isa = PBXGroup;
 			children = (
 				7B8BD01A20026E8C009BE667 /* RetryingOperation.framework */,
-				7B8BD02220026E8C009BE667 /* RetryingOperation-Tests.xctest */,
+				7B8BD02220026E8C009BE667 /* RetryingOperationTests.xctest */,
 				7B80A9CF2236ABBE00CECD67 /* RetryingOperation.framework */,
 			);
 			name = Products;
@@ -205,9 +205,9 @@
 			productReference = 7B8BD01A20026E8C009BE667 /* RetryingOperation.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		7B8BD02120026E8C009BE667 /* RetryingOperation-Tests */ = {
+		7B8BD02120026E8C009BE667 /* RetryingOperationTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 7B8BD02E20026E8C009BE667 /* Build configuration list for PBXNativeTarget "RetryingOperation-Tests" */;
+			buildConfigurationList = 7B8BD02E20026E8C009BE667 /* Build configuration list for PBXNativeTarget "RetryingOperationTests" */;
 			buildPhases = (
 				7B8BD01E20026E8C009BE667 /* Sources */,
 				7B8BD01F20026E8C009BE667 /* Frameworks */,
@@ -218,9 +218,9 @@
 			dependencies = (
 				7B8BD02520026E8C009BE667 /* PBXTargetDependency */,
 			);
-			name = "RetryingOperation-Tests";
+			name = RetryingOperationTests;
 			productName = "happnLogger-macOSTests";
-			productReference = 7B8BD02220026E8C009BE667 /* RetryingOperation-Tests.xctest */;
+			productReference = 7B8BD02220026E8C009BE667 /* RetryingOperationTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -262,7 +262,7 @@
 			targets = (
 				7B8BD01920026E8C009BE667 /* RetryingOperation */,
 				7B80A9C52236ABBE00CECD67 /* RetryingOperation-Static */,
-				7B8BD02120026E8C009BE667 /* RetryingOperation-Tests */,
+				7B8BD02120026E8C009BE667 /* RetryingOperationTests */,
 			);
 		};
 /* End PBXProject section */
@@ -368,8 +368,8 @@
 				CURRENT_PROJECT_VERSION = 3;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_COMPATIBILITY_VERSION = 1.1.1;
+				DYLIB_CURRENT_VERSION = 1.1.2;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				FRAMEWORK_VERSION = A;
@@ -399,7 +399,7 @@
 				SWIFT_VERSION = 4.2;
 				TVOS_DEPLOYMENT_TARGET = 9.0;
 				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
+				VERSION_INFO_PREFIX = HPN;
 				WATCHOS_DEPLOYMENT_TARGET = 2.0;
 			};
 			name = Debug;
@@ -440,8 +440,8 @@
 				CURRENT_PROJECT_VERSION = 3;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_COMPATIBILITY_VERSION = 1.1.1;
+				DYLIB_CURRENT_VERSION = 1.1.2;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				FRAMEWORK_VERSION = A;
@@ -464,7 +464,7 @@
 				TVOS_DEPLOYMENT_TARGET = 9.0;
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
+				VERSION_INFO_PREFIX = HPN;
 				WATCHOS_DEPLOYMENT_TARGET = 2.0;
 			};
 			name = Release;
@@ -476,7 +476,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = "Xcode Supporting Files/Framework-Info.plist";
 				MACH_O_TYPE = staticlib;
-				PRODUCT_BUNDLE_IDENTIFIER = com.happn.RetryingOperation;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.happn.RetryingOperation-Static";
 				PRODUCT_NAME = RetryingOperation;
 			};
 			name = Debug;
@@ -488,7 +488,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = "Xcode Supporting Files/Framework-Info.plist";
 				MACH_O_TYPE = staticlib;
-				PRODUCT_BUNDLE_IDENTIFIER = com.happn.RetryingOperation;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.happn.RetryingOperation-Static";
 				PRODUCT_NAME = RetryingOperation;
 			};
 			name = Release;
@@ -527,7 +527,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = "Xcode Supporting Files/Test-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks @executable_path/../Frameworks @loader_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.happn.RetryingOperation-Tests";
+				PRODUCT_BUNDLE_IDENTIFIER = com.happn.RetryingOperationTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -540,7 +540,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = "Xcode Supporting Files/Test-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks @executable_path/../Frameworks @loader_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.happn.RetryingOperation-Tests";
+				PRODUCT_BUNDLE_IDENTIFIER = com.happn.RetryingOperationTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -575,7 +575,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		7B8BD02E20026E8C009BE667 /* Build configuration list for PBXNativeTarget "RetryingOperation-Tests" */ = {
+		7B8BD02E20026E8C009BE667 /* Build configuration list for PBXNativeTarget "RetryingOperationTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				7B8BD02F20026E8C009BE667 /* Debug */,
