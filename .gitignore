@@ -1,5 +1,10 @@
+# macOS
 .DS_Store
+
+# SPM
 /.build
 /Packages
 
+# Xcode and Carthage
 xcuserdata/
+/Carthage/
