@@ -1,7 +1,7 @@
 # Retrying Operations
+![Platforms](https://img.shields.io/badge/platform-macOS%20|%20iOS%20|%20tvOS%20|%20watchOS%20|%20Linux-lightgrey.svg?style=flat) [![Carthage compatible](https://img.shields.io/badge/carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage) [![SPM compatible](https://img.shields.io/badge/SPM-compatible-E05C43.svg?style=flat)](https://swift.org/package-manager/) [![License](https://img.shields.io/github/license/happn-tech/RetryingOperation.svg)](License.txt) [![happn](https://img.shields.io/badge/from-happn-0087B4.svg?style=flat)](https://happn.com)
 
-## What Is It?
-
+## What is it?
 An abstract class for retrying operations. The idea is to provide a clean and
 easy way to create retrying operations. For instance, if you make an operation
 to fetch some network resources, the operation might fail because there is no
@@ -14,8 +14,7 @@ process.
 
 _Note_: Cancelled operations are not retried.
 
-## How to Use It?
-
+## How to use it?
 `RetryingOperation` is an abstract class. In order to use it you must subclass
 it.
 
@@ -49,8 +48,7 @@ methods when you're called. Also note you might not have a working run-loop. If
 you're writing an asynchronous operation, you **must** leave the method as soon
 as possible, exactly like you'd do when overwriting `start()`.
 
-## What About Operations I Don’t Own?
-
+## What about operations I don’t own?
 Use case: I'm using a framework which provide nice operations. I would want to
 make these operations retryable, but I cannot make them inherit from
 `RetryingOperation` as I do not own them. What can I do?
@@ -58,6 +56,5 @@ make these operations retryable, but I cannot make them inherit from
 A solution is to use `RetryableOperationWrapper`. See the doc of this class
 for more information.
 
-## License
-
-[Apache License 2.0](License.txt)
+## Credits
+This project was originally created by [François Lamboley](https://github.com/Frizlab) while working at [happn](https://happn.com).
