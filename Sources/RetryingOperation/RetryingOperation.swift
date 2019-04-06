@@ -502,10 +502,3 @@ open class RetryingOperation : Operation {
 	}
 	
 }
-
-public protocol RetryHelper {
-	
-	func setup()
-	func teardown()
-	
-}

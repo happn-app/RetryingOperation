@@ -17,6 +17,8 @@
 		7B8BD02320026E8C009BE667 /* RetryingOperation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B8BD01A20026E8C009BE667 /* RetryingOperation.framework */; };
 		7B8BD036200274B9009BE667 /* RetryingOperationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B8BD034200274B9009BE667 /* RetryingOperationTests.swift */; };
 		7B9166CF2258AA4100C24ABF /* CustomRetrySynchronousRetryingOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B9166CE2258AA4100C24ABF /* CustomRetrySynchronousRetryingOperation.swift */; };
+		7B9166D1225932DA00C24ABF /* RetryHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B9166D0225932DA00C24ABF /* RetryHelper.swift */; };
+		7B9166D2225932DA00C24ABF /* RetryHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B9166D0225932DA00C24ABF /* RetryHelper.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,6 +48,7 @@
 		7B8BD032200274B9009BE667 /* LinuxMain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LinuxMain.swift; sourceTree = "<group>"; };
 		7B8BD034200274B9009BE667 /* RetryingOperationTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RetryingOperationTests.swift; sourceTree = "<group>"; };
 		7B9166CE2258AA4100C24ABF /* CustomRetrySynchronousRetryingOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomRetrySynchronousRetryingOperation.swift; sourceTree = "<group>"; };
+		7B9166D0225932DA00C24ABF /* RetryHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RetryHelper.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -122,6 +125,7 @@
 		7B8BD01220026AF1009BE667 /* RetryingOperation */ = {
 			isa = PBXGroup;
 			children = (
+				7B9166D0225932DA00C24ABF /* RetryHelper.swift */,
 				7B54112A20124FA500FF326F /* RetryingOperation.swift */,
 				7B54112F2012507500FF326F /* WrappedRetryingOperation.swift */,
 			);
@@ -303,6 +307,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7B9166D2225932DA00C24ABF /* RetryHelper.swift in Sources */,
 				7B80A9C72236ABBE00CECD67 /* RetryingOperation.swift in Sources */,
 				7B80A9C82236ABBE00CECD67 /* WrappedRetryingOperation.swift in Sources */,
 			);
@@ -312,6 +317,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7B9166D1225932DA00C24ABF /* RetryHelper.swift in Sources */,
 				7B54112B20124FA500FF326F /* RetryingOperation.swift in Sources */,
 				7B5411302012507500FF326F /* WrappedRetryingOperation.swift in Sources */,
 			);
