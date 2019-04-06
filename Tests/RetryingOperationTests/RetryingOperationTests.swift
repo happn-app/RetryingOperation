@@ -94,8 +94,8 @@ class RetryingOperationTests: XCTestCase {
 	func testCancelledBasicSynchronousRetryableOperationInWrapper1Retry() {
 		let op = BasicSynchronousRetryableOperation(nRetries: 1, nStart: 1, checkStr: "")
 		let rop = RetryableOperationWrapper(baseOperation: op, baseOperationQueue: nil)
-		operationQueue.addOperation(rop)
 		op.cancel()
+		operationQueue.addOperation(rop)
 		operationQueue.waitUntilAllOperationsAreFinished() /* Works on Linux too because op is synchronous. */
 		XCTAssertEqual(rop.currentBaseOperation.checkStr, ".")
 	}
@@ -117,6 +117,36 @@ class RetryingOperationTests: XCTestCase {
 		}
 		operationQueue.waitUntilAllOperationsAreFinished() /* Works on Linux too because op is synchronous. */
 		XCTAssertEqual(op.checkStr, "..")
+		XCTAssertEqual(op.retryHelper.setupCheckStr, ".")
+		XCTAssertEqual(op.retryHelper.teardownCheckStr, ".")
+	}
+	
+	func testCustomRetryCancelledSynchronousRetryingOperation() {
+		let op = CustomRetrySynchronousRetryingOperation(immediateCancellation: true)
+		operationQueue.addOperation(op)
+		operationQueue.waitUntilAllOperationsAreFinished() /* Works on Linux too because op is synchronous. */
+		XCTAssertEqual(op.checkStr, ".")
+		XCTAssertEqual(op.retryHelper.setupCheckStr, "")
+		XCTAssertEqual(op.retryHelper.teardownCheckStr, "")
+	}
+	
+	func testCustomRetryCancelledSynchronousRetryingOperationBis() {
+		let op = CustomRetrySynchronousRetryingOperation()
+		operationQueue.addOperation(op)
+		/* There are probably cleverer ways to do this, but we don’t care about
+		 * optimizing anything here; we’re in a test... */
+		DispatchQueue(label: "launch retry queue").async{
+			var hasCancelled = false
+			while !hasCancelled {
+				Thread.sleep(forTimeInterval: 0.1)
+				if op.hasEndedBaseOperation {
+					hasCancelled = true
+					op.cancel()
+				}
+			}
+		}
+		operationQueue.waitUntilAllOperationsAreFinished() /* Works on Linux too because op is synchronous. */
+		XCTAssertEqual(op.checkStr, ".")
 		XCTAssertEqual(op.retryHelper.setupCheckStr, ".")
 		XCTAssertEqual(op.retryHelper.teardownCheckStr, ".")
 	}

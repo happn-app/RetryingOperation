@@ -21,6 +21,7 @@ import RetryingOperation
 class CustomRetrySynchronousRetryingOperation : RetryingOperation {
 	
 	var checkStr = ""
+	let immediateCancellation: Bool
 	let retryHelper: CustomRetryHelper /* Only used to test whether the retry helper is properly setup */
 	
 	var hasEndedBaseOperation: Bool {
@@ -30,13 +31,16 @@ class CustomRetrySynchronousRetryingOperation : RetryingOperation {
 	private var _hasEndedBaseOperation = false
 	private var _hasEndedBaseOperationQueue = DispatchQueue(label: "has ended base operation sync queue")
 	
-	override init() {
+	init(immediateCancellation c: Bool = false) {
 		retryHelper = CustomRetryHelper()
+		immediateCancellation = c
 		
 		super.init()
 	}
 	
 	override func startBaseOperation(isRetry: Bool) {
+		if immediateCancellation {cancel()}
+		
 		checkStr += "."
 		Thread.sleep(forTimeInterval: 0.25)
 		if !isRetry {self.baseOperationEnded(retryHelpers: [retryHelper])} /* The retry helper won’t do anything; the operation will be retrying from the test directly. */

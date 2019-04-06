@@ -116,51 +116,79 @@ open class RetryingOperation : Operation {
 	
 	/* Note: The synchronous implementation deserves a little more tests.
 	 *       Currently it is only very lightly tested with a few unit tests. */
-	#warning("TODO: Verify the retry helper implementation. What’s the filteredHelpers var for? Does the implementation has the correct behaviour?")
 	public final override func main() {
 		assert(!isAsynchronous)
 		
-		var retry = true
-		var isRetry = false
-		mainLoop: while retry {
-			var helpers: [RetryHelper]? = retryQueue.sync{
-				_startBaseOperationOnQueue(isRetry: isRetry); assert(!isBaseOperationRunning)
-				let ret = syncOperationRetryHelpers; syncOperationRetryHelpers = nil
-				if ret != nil {retryingState = .waitingToRetry(nRetries)}
-				return ret
+		/* Sets the retryHelpers instance var to the given helpers minus the timer
+		 * retry helpers. Returns the time to wait, inferred from the removed
+		 * timer retry helpers.
+		 * Must be called on retry queue. */
+		func setFilteredRetryHelpers(helpers: [RetryHelper]?) -> TimeInterval?? {
+			guard let helpers = helpers else {
+				retryHelpers = nil
+				return nil
 			}
-			retry = (helpers != nil)
 			
-			while let currentHelpers = helpers {
-				var timeToWait: TimeInterval?
-				var filteredHelpers = [RetryHelper]()
-				for helper in currentHelpers {
-					switch helper {
-					case let timerHelper as TimerRetryHelper:
-						/* The Timer Retry Helper is handled differently for
-						 * optimizations and wait time precision. */
-						if let t = timeToWait {timeToWait = min(t, timerHelper.delay)}
-						else                  {timeToWait = timerHelper.delay}
-						
-					default: filteredHelpers.append(helper)
-					}
+			var timeToWait: TimeInterval?
+			var filteredHelpers = [RetryHelper]()
+			for helper in helpers {
+				switch helper {
+				case let timerHelper as TimerRetryHelper:
+					/* The Timer Retry Helper is handled differently for optimization
+					 * and wait time precision. */
+					if let t = timeToWait {timeToWait = min(t, timerHelper.delay)}
+					else                  {timeToWait = timerHelper.delay}
+					
+				default: filteredHelpers.append(helper)
 				}
+			}
+			retryHelpers = filteredHelpers
+			return .some(timeToWait)
+		}
+		
+		var isRetry = false
+		var shouldRetry = true
+		while shouldRetry {
+			/* The variable below is:
+			 *    - .none        if there should not be any retry (op is finished);
+			 *    - .some(.none) if there should be a retry, but no retry helper
+			 *                   were a timer retry helper;
+			 *    - .some(.some) if there should be a retry and there was a timer
+			 *                   retry helper. The value of the time interval will
+			 *                   be the time to wait. */
+			var timeToWaitAndShouldRetry: TimeInterval?? = retryQueue.sync{
+				/* First we teardown any previous helper if any. */
+				_ = setFilteredRetryHelpers(helpers: nil)
 				
-				helpers = nil
+				/* We start the base operation here. Because the operation is sync,
+				 * at the next line syncOperationRetryHelpers will have been set to
+				 * the new retry helpers. */
+				_startBaseOperationOnQueue(isRetry: isRetry); assert(!isBaseOperationRunning)
+				
+				let ret = (!isCancelled ? syncOperationRetryHelpers : nil); syncOperationRetryHelpers = nil
+				if ret != nil {retryingState = .waitingToRetry(nRetries)}
+				return setFilteredRetryHelpers(helpers: ret)
+			}
+			
+			shouldRetry = (timeToWaitAndShouldRetry != nil)
+			while let timeToWait = timeToWaitAndShouldRetry {
+				timeToWaitAndShouldRetry = nil
 				
 				let startWaitTime = Date()
 				repeat {
-					guard !isCancelled else {break mainLoop}
 					Thread.sleep(forTimeInterval: timeToWait.map{ max(0, min(0.5, $0 + startWaitTime.timeIntervalSinceNow)) } ?? 0.5)
 					
-					let shouldRefreshHelpers: Bool = retryQueue.sync{
-						guard syncRefreshRetryHelpers else {return false}
-						helpers = syncOperationRetryHelpers
+					let shouldRefreshTimeToWait: Bool = retryQueue.sync{
+						let cancelled = isCancelled
+						guard syncRefreshRetryHelpers || cancelled else {return false}
+						
+						timeToWaitAndShouldRetry = setFilteredRetryHelpers(helpers: !cancelled ? syncOperationRetryHelpers : nil)
+						shouldRetry = shouldRetry && !cancelled
 						syncOperationRetryHelpers = nil
 						syncRefreshRetryHelpers = false
 						return true
 					}
-					guard !shouldRefreshHelpers else {break}
+					guard !shouldRefreshTimeToWait else {break}
 				} while timeToWait.map{ -startWaitTime.timeIntervalSinceNow < $0 } ?? true
 			}
 			isRetry = true

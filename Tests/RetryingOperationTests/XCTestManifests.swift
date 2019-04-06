@@ -13,6 +13,9 @@ extension RetryingOperationTests {
         ("testBasicSynchronousRetryingOperation1Retry", testBasicSynchronousRetryingOperation1Retry),
         ("testBasicSynchronousRetryingOperationNoRetries", testBasicSynchronousRetryingOperationNoRetries),
         ("testCancelledBasicSynchronousRetryableOperationInWrapper1Retry", testCancelledBasicSynchronousRetryableOperationInWrapper1Retry),
+        ("testCustomRetryCancelledSynchronousRetryingOperation", testCustomRetryCancelledSynchronousRetryingOperation),
+        ("testCustomRetryCancelledSynchronousRetryingOperationBis", testCustomRetryCancelledSynchronousRetryingOperationBis),
+        ("testCustomRetrySynchronousRetryingOperation", testCustomRetrySynchronousRetryingOperation),
     ]
 }
 
