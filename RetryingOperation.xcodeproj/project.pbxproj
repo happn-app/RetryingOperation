@@ -16,6 +16,7 @@
 		7B80A9C82236ABBE00CECD67 /* WrappedRetryingOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B54112F2012507500FF326F /* WrappedRetryingOperation.swift */; };
 		7B8BD02320026E8C009BE667 /* RetryingOperation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B8BD01A20026E8C009BE667 /* RetryingOperation.framework */; };
 		7B8BD036200274B9009BE667 /* RetryingOperationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B8BD034200274B9009BE667 /* RetryingOperationTests.swift */; };
+		7B9166CF2258AA4100C24ABF /* CustomRetrySynchronousRetryingOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B9166CE2258AA4100C24ABF /* CustomRetrySynchronousRetryingOperation.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +45,7 @@
 		7B8BD02920026E8C009BE667 /* Test-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Test-Info.plist"; sourceTree = "<group>"; };
 		7B8BD032200274B9009BE667 /* LinuxMain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LinuxMain.swift; sourceTree = "<group>"; };
 		7B8BD034200274B9009BE667 /* RetryingOperationTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RetryingOperationTests.swift; sourceTree = "<group>"; };
+		7B9166CE2258AA4100C24ABF /* CustomRetrySynchronousRetryingOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomRetrySynchronousRetryingOperation.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,6 +80,7 @@
 				7B54113A20126A6E00FF326F /* BasicSynchronousRetryingOperation.swift */,
 				7B54113E20126A8F00FF326F /* BasicAsynchronousRetryingOperation.swift */,
 				7B54114220126AAF00FF326F /* BasicSynchronousRetryableOperation.swift */,
+				7B9166CE2258AA4100C24ABF /* CustomRetrySynchronousRetryingOperation.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -320,6 +323,7 @@
 			files = (
 				7B54113B20126A6E00FF326F /* BasicSynchronousRetryingOperation.swift in Sources */,
 				7B8BD036200274B9009BE667 /* RetryingOperationTests.swift in Sources */,
+				7B9166CF2258AA4100C24ABF /* CustomRetrySynchronousRetryingOperation.swift in Sources */,
 				7B54113F20126A8F00FF326F /* BasicAsynchronousRetryingOperation.swift in Sources */,
 				7B54114320126AAF00FF326F /* BasicSynchronousRetryableOperation.swift in Sources */,
 			);

@@ -100,4 +100,25 @@ class RetryingOperationTests: XCTestCase {
 		XCTAssertEqual(rop.currentBaseOperation.checkStr, ".")
 	}
 	
+	func testCustomRetrySynchronousRetryingOperation() {
+		let op = CustomRetrySynchronousRetryingOperation()
+		operationQueue.addOperation(op)
+		/* There are probably cleverer ways to do this, but we don’t care about
+		 * optimizing anything here; we’re in a test... */
+		DispatchQueue(label: "launch retry queue").async{
+			var hasRetried = false
+			while !hasRetried {
+				Thread.sleep(forTimeInterval: 0.1)
+				if op.hasEndedBaseOperation {
+					hasRetried = true
+					op.retryNow()
+				}
+			}
+		}
+		operationQueue.waitUntilAllOperationsAreFinished() /* Works on Linux too because op is synchronous. */
+		XCTAssertEqual(op.checkStr, "..")
+		XCTAssertEqual(op.retryHelper.setupCheckStr, ".")
+		XCTAssertEqual(op.retryHelper.teardownCheckStr, ".")
+	}
+	
 }
