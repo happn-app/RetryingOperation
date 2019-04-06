@@ -79,48 +79,9 @@ Use case: I'm using a framework which provide nice operations. I would want to
 make these operations retryable, but I cannot make them inherit from
 `RetryingOperation` as I do not own them. What can I do?
 
-A solution is to use `RetryableOperationWrapper`. See the doc of this class
-for more information. */
+A solution is to use `RetryableOperationWrapper`. See the doc of this class for
+more information. */
 open class RetryingOperation : Operation {
-	
-	public enum RetryingOperationState {
-		
-		case inited
-		case running(Int) /* The value is the number of retries (0 for first try) */
-		case waitingToRetry(Int) /* The value is the number of retries already done (0 for first wait) */
-		case finished
-		
-		var isFinished: Bool {
-			switch self {
-			case .finished: return true
-			default:        return false
-			}
-		}
-		
-		var isWaitingToRetry: Bool {
-			switch self {
-			case .waitingToRetry(_): return true
-			default:                 return false
-			}
-		}
-		
-		var isRunningOrWaitingToRetry: Bool {
-			switch self {
-			case .running(_):        return true
-			case .waitingToRetry(_): return true
-			default:                 return false
-			}
-		}
-		
-		var numberOfRetries: Int? {
-			switch self {
-			case .running(let n):        return n
-			case .waitingToRetry(let n): return n
-			default: return nil
-			}
-		}
-		
-	}
 	
 	public var numberOfRetries: Int? {
 		retryStateSemaphore.wait(); defer {retryStateSemaphore.signal()}
@@ -340,6 +301,45 @@ open class RetryingOperation : Operation {
 	   MARK: - Private
 	   *************** */
 	
+	private enum State {
+		
+		case inited
+		case running(Int) /* The value is the number of retries (0 for first try) */
+		case waitingToRetry(Int) /* The value is the number of retries already done (0 for first wait) */
+		case finished
+		
+		var isFinished: Bool {
+			switch self {
+			case .finished: return true
+			default:        return false
+			}
+		}
+		
+		var isWaitingToRetry: Bool {
+			switch self {
+			case .waitingToRetry: return true
+			default:              return false
+			}
+		}
+		
+		var isRunningOrWaitingToRetry: Bool {
+			switch self {
+			case .running:        return true
+			case .waitingToRetry: return true
+			default:              return false
+			}
+		}
+		
+		var numberOfRetries: Int? {
+			switch self {
+			case .running(let n):        return n
+			case .waitingToRetry(let n): return n
+			default: return nil
+			}
+		}
+		
+	}
+	
 	private var nRetries = 0
 	
 	private var retryHelpers: [RetryHelper]? {
@@ -354,7 +354,7 @@ open class RetryingOperation : Operation {
 	private var syncRefreshRetryHelpers = false
 	private var syncOperationRetryHelpers: [RetryHelper]?
 	
-	private var retryingState = RetryingOperationState.inited {
+	private var retryingState = State.inited {
 		willSet(newState) {
 			willChangeValue(forKey: "retryingState")
 			
