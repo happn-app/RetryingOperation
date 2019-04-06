@@ -17,13 +17,10 @@ import Foundation
 
 
 
-/* This syntax is touchy apparently.
- * On Swift 5, will be officially supported and have the following syntax:
- *    protocol RetryableOperation : Operation */
-public protocol RetryableOperation where Self : Operation {
+public protocol RetryableOperation : Operation {
 	
 	/* I’d like to add “where T : Self” so that clients of the protocol know
-	 * ther're given an object kind of class Self, but I get an error:
+	 * ther're given an object kind of class Self, but I get an error (swift4.2):
 	 *    Type ‘T’ constrainted to non-protocol, non-class type ‘Self’
 	 *
 	 * I could also remove the T type and set wrapper’s type to
