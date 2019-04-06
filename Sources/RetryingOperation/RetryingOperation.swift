@@ -310,7 +310,7 @@ open class RetryingOperation : Operation {
 			
 			timer = DispatchSource.makeTimerSource(flags: [], queue: retryingOperation.retryQueue)
 			timer.setEventHandler{ retryingOperation._unsafeRetry(withHelpers: nil) }
-			timer.schedule(deadline: .now() + d, leeway: .milliseconds(250))
+			/* We schedule the timer in setup. */
 		}
 		
 		deinit {
@@ -320,6 +320,7 @@ open class RetryingOperation : Operation {
 		}
 		
 		public func setup() {
+			timer.schedule(deadline: .now() + delay, leeway: .milliseconds(250))
 			timer.resume()
 			hasBeenResumed = true
 		}
