@@ -75,8 +75,8 @@ public final class RetryableOperationWrapper<T> : RetryingOperation where T : Re
 		else                          {currentBaseOperation.start()}
 		currentBaseOperation.waitUntilFinished()
 		
-		let canRetry = (self.maximumNumberOfRetries < 0 || self.numberOfRetries! < self.maximumNumberOfRetries)
-		self.baseOperationEnded(retryHelpers: canRetry ? self.currentBaseOperation.retryHelpers(from: self) : nil)
+		let canRetry = (maximumNumberOfRetries < 0 || numberOfRetries! < maximumNumberOfRetries)
+		self.baseOperationEnded(retryHelpers: canRetry ? currentBaseOperation.retryHelpers(from: self) : nil)
 	}
 	
 	public override func cancelBaseOperation() {
