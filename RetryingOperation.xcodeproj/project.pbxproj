@@ -12,6 +12,8 @@
 		7B54113B20126A6E00FF326F /* BasicSynchronousRetryingOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B54113A20126A6E00FF326F /* BasicSynchronousRetryingOperation.swift */; };
 		7B54113F20126A8F00FF326F /* BasicAsynchronousRetryingOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B54113E20126A8F00FF326F /* BasicAsynchronousRetryingOperation.swift */; };
 		7B54114320126AAF00FF326F /* BasicSynchronousRetryableOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B54114220126AAF00FF326F /* BasicSynchronousRetryableOperation.swift */; };
+		7B5C034B22C7A3D2007F5592 /* DependencyInjection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B5C034A22C7A3D2007F5592 /* DependencyInjection.swift */; };
+		7B5C034C22C7A3D2007F5592 /* DependencyInjection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B5C034A22C7A3D2007F5592 /* DependencyInjection.swift */; };
 		7B80A9C72236ABBE00CECD67 /* RetryingOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B54112A20124FA500FF326F /* RetryingOperation.swift */; };
 		7B80A9C82236ABBE00CECD67 /* WrappedRetryingOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B54112F2012507500FF326F /* WrappedRetryingOperation.swift */; };
 		7B8BD02320026E8C009BE667 /* RetryingOperation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B8BD01A20026E8C009BE667 /* RetryingOperation.framework */; };
@@ -40,6 +42,7 @@
 		7B54113A20126A6E00FF326F /* BasicSynchronousRetryingOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicSynchronousRetryingOperation.swift; sourceTree = "<group>"; };
 		7B54113E20126A8F00FF326F /* BasicAsynchronousRetryingOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicAsynchronousRetryingOperation.swift; sourceTree = "<group>"; };
 		7B54114220126AAF00FF326F /* BasicSynchronousRetryableOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicSynchronousRetryableOperation.swift; sourceTree = "<group>"; };
+		7B5C034A22C7A3D2007F5592 /* DependencyInjection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DependencyInjection.swift; sourceTree = "<group>"; };
 		7B80A9CF2236ABBE00CECD67 /* RetryingOperation.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = RetryingOperation.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7B8BD01A20026E8C009BE667 /* RetryingOperation.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = RetryingOperation.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7B8BD01D20026E8C009BE667 /* Framework-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Framework-Info.plist"; sourceTree = "<group>"; };
@@ -125,6 +128,7 @@
 		7B8BD01220026AF1009BE667 /* RetryingOperation */ = {
 			isa = PBXGroup;
 			children = (
+				7B5C034A22C7A3D2007F5592 /* DependencyInjection.swift */,
 				7B9166D0225932DA00C24ABF /* RetryHelper.swift */,
 				7B54112A20124FA500FF326F /* RetryingOperation.swift */,
 				7B54112F2012507500FF326F /* WrappedRetryingOperation.swift */,
@@ -309,6 +313,7 @@
 			files = (
 				7B9166D2225932DA00C24ABF /* RetryHelper.swift in Sources */,
 				7B80A9C72236ABBE00CECD67 /* RetryingOperation.swift in Sources */,
+				7B5C034C22C7A3D2007F5592 /* DependencyInjection.swift in Sources */,
 				7B80A9C82236ABBE00CECD67 /* WrappedRetryingOperation.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -319,6 +324,7 @@
 			files = (
 				7B9166D1225932DA00C24ABF /* RetryHelper.swift in Sources */,
 				7B54112B20124FA500FF326F /* RetryingOperation.swift in Sources */,
+				7B5C034B22C7A3D2007F5592 /* DependencyInjection.swift in Sources */,
 				7B5411302012507500FF326F /* WrappedRetryingOperation.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

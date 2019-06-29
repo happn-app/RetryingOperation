@@ -1,0 +1,16 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "DummyLinuxOSLog",
+        "repositoryURL": "https://github.com/happn-tech/DummyLinuxOSLog.git",
+        "state": {
+          "branch": null,
+          "revision": "ce7a3bc30d38640d2bea2a3a72a7866d8d13c538",
+          "version": "1.0.1"
+        }
+      }
+    ]
+  },
+  "version": 1
+}
