@@ -77,7 +77,8 @@ class RetryingOperationTests: XCTestCase {
 			operationQueue.waitUntilAllOperationsAreFinished()
 		#else
 			/* OperationsQueue’s waitUntilAllOperationsAreFinished does not work
-			 * for async operations on Linux… */
+			 * for async operations on Linux.
+			 * Fixed in Swift 5.1! \o/ */
 			op.waitUntilFinished()
 		#endif
 		XCTAssertEqual(op.checkStr, "..")
