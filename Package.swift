@@ -1,4 +1,4 @@
-// swift-tools-version:5.0
+// swift-tools-version:5.1
 import PackageDescription
 
 
@@ -14,10 +14,12 @@ let package = Package(
 		.library(name: "RetryingOperation", targets: ["RetryingOperation"]),
 	],
 	dependencies: [
-		.package(url: "https://github.com/happn-tech/DummyLinuxOSLog.git", from: "1.0.0")
+		.package(url: "https://github.com/apple/swift-log.git", from: "1.2.0")
 	],
 	targets: [
-		.target(name: "RetryingOperation", dependencies: ["DummyLinuxOSLog"]),
+		.target(name: "RetryingOperation", dependencies: [
+			.product(name: "Logging", package: "swift-log")
+		]),
 		.testTarget(name: "RetryingOperationTests", dependencies: ["RetryingOperation"])
 	]
 )
