@@ -60,4 +60,7 @@ public struct RetryingOperationConfig {
 		return Logger(label: "com.happn.RetryingOperation")
 	}()
 	
+	/** This struct is simply a container for static configuration properties. */
+	private init() {}
+	
 }
