@@ -38,19 +38,14 @@ class RetryingOperationTests: XCTestCase {
 	func testBasicSynchronousRetryingOperationNoRetries() {
 		let op = BasicSynchronousRetryingOperation(nRetries: 0)
 		operationQueue.addOperation(op)
-		operationQueue.waitUntilAllOperationsAreFinished() /* Works on Linux too because op is synchronous. */
+		operationQueue.waitUntilAllOperationsAreFinished()
 		XCTAssertEqual(op.checkStr, ".")
 	}
 	
 	func testBasicAsynchronousRetryingOperationNoRetries() {
 		let op = BasicAsynchronousRetryingOperation(nRetries: 0)
 		operationQueue.addOperation(op)
-#if !os(Linux)
 		operationQueue.waitUntilAllOperationsAreFinished()
-#else
-		/* OperationsQueue’s waitUntilAllOperationsAreFinished does not work for async operations on Linux… */
-		op.waitUntilFinished()
-#endif
 		XCTAssertEqual(op.checkStr, ".")
 	}
 	
@@ -58,27 +53,21 @@ class RetryingOperationTests: XCTestCase {
 		let op = BasicSynchronousRetryableOperation(nRetries: 0, nStart: 1, checkStr: "")
 		let rop = RetryableOperationWrapper(baseOperation: op, baseOperationQueue: nil)
 		operationQueue.addOperation(rop)
-		operationQueue.waitUntilAllOperationsAreFinished() /* Works on Linux too because op is synchronous. */
+		operationQueue.waitUntilAllOperationsAreFinished()
 		XCTAssertEqual(rop.currentBaseOperation.checkStr, ".")
 	}
 	
 	func testBasicSynchronousRetryingOperation1Retry() {
 		let op = BasicSynchronousRetryingOperation(nRetries: 1)
 		operationQueue.addOperation(op)
-		operationQueue.waitUntilAllOperationsAreFinished() /* Works on Linux too because op is synchronous. */
+		operationQueue.waitUntilAllOperationsAreFinished()
 		XCTAssertEqual(op.checkStr, "..")
 	}
 	
 	func testBasicAsynchronousRetryingOperation1Retry() {
 		let op = BasicAsynchronousRetryingOperation(nRetries: 1)
 		operationQueue.addOperation(op)
-#if !os(Linux)
 		operationQueue.waitUntilAllOperationsAreFinished()
-#else
-		/* OperationsQueue’s waitUntilAllOperationsAreFinished does not work for async operations on Linux.
-		 * Fixed in Swift 5.1! \o/ */
-		op.waitUntilFinished()
-#endif
 		XCTAssertEqual(op.checkStr, "..")
 	}
 	
@@ -86,7 +75,7 @@ class RetryingOperationTests: XCTestCase {
 		let op = BasicSynchronousRetryableOperation(nRetries: 1, nStart: 1, checkStr: "")
 		let rop = RetryableOperationWrapper(baseOperation: op, baseOperationQueue: nil)
 		operationQueue.addOperation(rop)
-		operationQueue.waitUntilAllOperationsAreFinished() /* Works on Linux too because op is synchronous. */
+		operationQueue.waitUntilAllOperationsAreFinished()
 		XCTAssertEqual(rop.currentBaseOperation.checkStr, "..")
 	}
 	
@@ -95,7 +84,7 @@ class RetryingOperationTests: XCTestCase {
 		let rop = RetryableOperationWrapper(baseOperation: op, baseOperationQueue: nil)
 		op.cancel()
 		operationQueue.addOperation(rop)
-		operationQueue.waitUntilAllOperationsAreFinished() /* Works on Linux too because op is synchronous. */
+		operationQueue.waitUntilAllOperationsAreFinished()
 		XCTAssertEqual(rop.currentBaseOperation.checkStr, ".")
 	}
 	
@@ -113,7 +102,7 @@ class RetryingOperationTests: XCTestCase {
 				}
 			}
 		}
-		operationQueue.waitUntilAllOperationsAreFinished() /* Works on Linux too because op is synchronous. */
+		operationQueue.waitUntilAllOperationsAreFinished()
 		XCTAssertEqual(op.checkStr, "..")
 		XCTAssertEqual(op.retryHelper.setupCheckStr, ".")
 		XCTAssertEqual(op.retryHelper.teardownCheckStr, ".")
@@ -122,7 +111,7 @@ class RetryingOperationTests: XCTestCase {
 	func testCustomRetryCancelledSynchronousRetryingOperation() {
 		let op = CustomRetrySynchronousRetryingOperation(immediateCancellation: true)
 		operationQueue.addOperation(op)
-		operationQueue.waitUntilAllOperationsAreFinished() /* Works on Linux too because op is synchronous. */
+		operationQueue.waitUntilAllOperationsAreFinished()
 		XCTAssertEqual(op.checkStr, ".")
 		XCTAssertEqual(op.retryHelper.setupCheckStr, "")
 		XCTAssertEqual(op.retryHelper.teardownCheckStr, "")
@@ -142,7 +131,7 @@ class RetryingOperationTests: XCTestCase {
 				}
 			}
 		}
-		operationQueue.waitUntilAllOperationsAreFinished() /* Works on Linux too because op is synchronous. */
+		operationQueue.waitUntilAllOperationsAreFinished()
 		XCTAssertEqual(op.checkStr, ".")
 		XCTAssertEqual(op.retryHelper.setupCheckStr, ".")
 		XCTAssertEqual(op.retryHelper.teardownCheckStr, ".")
