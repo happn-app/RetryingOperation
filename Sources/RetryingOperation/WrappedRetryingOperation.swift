@@ -19,13 +19,12 @@ import Foundation
 
 public protocol RetryableOperation : Operation {
 	
-	/* I’d like to add “where T : Self” so that clients of the protocol know
-	 * ther're given an object kind of class Self, but I get an error (swift4.2):
-	 *    Type ‘T’ constrainted to non-protocol, non-class type ‘Self’
-	 *
-	 * I could also remove the T type and set wrapper’s type to
-	 * RetryableOperationWrapper<Self>, but this forces the clients of the
-	 * protocol to be final, so it is not ideal either... */
+	/* I’d like to add “where T : Self” so that clients of the protocol know ther're given an object kind of class Self,
+	 * but I get an error (swift4.2):
+	 *    Type ‘T’ constrainted to non-protocol, non-class type ‘Self’
+	 *
+	 * I could also remove the T type and set wrapper’s type to RetryableOperationWrapper<Self>,
+	 * but this forces the clients of the protocol to be final, so it is not ideal either… */
 	func retryHelpers<T>(from wrapper: RetryableOperationWrapper<T>) -> [RetryHelper]?
 	
 	/** Must return a valid retryable operation. You cannot return self here. */
@@ -35,22 +34,21 @@ public protocol RetryableOperation : Operation {
 
 
 /**
-An operation that can run an operation conforming to the RetryableOperation
-protocol and retry the operation depending on the protocol implementation. */
+ An operation that can run an operation conforming to the ``RetryableOperation`` protocol and
+ retry the operation depending on the protocol implementation. */
 public final class RetryableOperationWrapper<T> : RetryingOperation where T : RetryableOperation {
 	
 	public let originalBaseOperation: T
 	public private(set) var currentBaseOperation: T
 	
 	/**
-   The queue on which the base operation(s) will run. Do not set to the queue on
-	which the retry operation wrapper runs unless you really know what you're
-	doing.
-	
-	If nil (default), the base operation will not be launched in a queue. */
+	 The queue on which the base operation(s) will run.
+	 Do not set to the queue on which the retry operation wrapper runs unless you really know what you're doing.
+	 
+	 If `nil` (default), the base operation will not be launched in a queue. */
 	public let baseOperationQueue: OperationQueue?
 	
-	/** If < 0, the operation is retried indefinitely. */
+	/** If `< 0`, the operation is retried indefinitely. */
 	public let maximumNumberOfRetries: Int
 	
 	public init(maximumNumberOfRetries maxRetry: Int = -1, baseOperation: T, baseOperationQueue queue: OperationQueue? = nil) {

@@ -45,13 +45,12 @@ class RetryingOperationTests: XCTestCase {
 	func testBasicAsynchronousRetryingOperationNoRetries() {
 		let op = BasicAsynchronousRetryingOperation(nRetries: 0)
 		operationQueue.addOperation(op)
-		#if !os(Linux)
-			operationQueue.waitUntilAllOperationsAreFinished()
-		#else
-			/* OperationsQueue’s waitUntilAllOperationsAreFinished does not work
-			 * for async operations on Linux… */
-			op.waitUntilFinished()
-		#endif
+#if !os(Linux)
+		operationQueue.waitUntilAllOperationsAreFinished()
+#else
+		/* OperationsQueue’s waitUntilAllOperationsAreFinished does not work for async operations on Linux… */
+		op.waitUntilFinished()
+#endif
 		XCTAssertEqual(op.checkStr, ".")
 	}
 	
@@ -73,14 +72,13 @@ class RetryingOperationTests: XCTestCase {
 	func testBasicAsynchronousRetryingOperation1Retry() {
 		let op = BasicAsynchronousRetryingOperation(nRetries: 1)
 		operationQueue.addOperation(op)
-		#if !os(Linux)
-			operationQueue.waitUntilAllOperationsAreFinished()
-		#else
-			/* OperationsQueue’s waitUntilAllOperationsAreFinished does not work
-			 * for async operations on Linux.
-			 * Fixed in Swift 5.1! \o/ */
-			op.waitUntilFinished()
-		#endif
+#if !os(Linux)
+		operationQueue.waitUntilAllOperationsAreFinished()
+#else
+		/* OperationsQueue’s waitUntilAllOperationsAreFinished does not work for async operations on Linux.
+		 * Fixed in Swift 5.1! \o/ */
+		op.waitUntilFinished()
+#endif
 		XCTAssertEqual(op.checkStr, "..")
 	}
 	
@@ -104,8 +102,7 @@ class RetryingOperationTests: XCTestCase {
 	func testCustomRetrySynchronousRetryingOperation() {
 		let op = CustomRetrySynchronousRetryingOperation()
 		operationQueue.addOperation(op)
-		/* There are probably cleverer ways to do this, but we don’t care about
-		 * optimizing anything here; we’re in a test... */
+		/* There are probably cleverer ways to do this, but we don’t care about optimizing anything here; we’re in a test... */
 		DispatchQueue(label: "launch retry queue").async{
 			var hasRetried = false
 			while !hasRetried {
@@ -134,8 +131,7 @@ class RetryingOperationTests: XCTestCase {
 	func testCustomRetryCancelledSynchronousRetryingOperationBis() {
 		let op = CustomRetrySynchronousRetryingOperation()
 		operationQueue.addOperation(op)
-		/* There are probably cleverer ways to do this, but we don’t care about
-		 * optimizing anything here; we’re in a test... */
+		/* There are probably cleverer ways to do this, but we don’t care about optimizing anything here; we’re in a test... */
 		DispatchQueue(label: "launch retry queue").async{
 			var hasCancelled = false
 			while !hasCancelled {
