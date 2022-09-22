@@ -18,7 +18,7 @@ import RetryingOperation
 
 
 
-class CustomRetrySynchronousRetryingOperation : RetryingOperation {
+final class CustomRetrySynchronousRetryingOperation : RetryingOperation {
 	
 	var checkStr = ""
 	let immediateCancellation: Bool

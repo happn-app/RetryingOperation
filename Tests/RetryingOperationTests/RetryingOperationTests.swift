@@ -18,7 +18,7 @@ import XCTest
 
 
 
-class RetryingOperationTests: XCTestCase {
+class RetryingOperationTests : XCTestCase {
 	
 	let operationQueue = OperationQueue()
 	

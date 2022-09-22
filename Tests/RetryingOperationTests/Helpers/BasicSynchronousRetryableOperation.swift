@@ -18,7 +18,7 @@ import RetryingOperation
 
 
 
-class BasicSynchronousRetryableOperation : Operation, RetryableOperation {
+final class BasicSynchronousRetryableOperation : Operation, RetryableOperation {
 	
 	let nRetries: Int
 	var checkStr: String
