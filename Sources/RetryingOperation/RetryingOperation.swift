@@ -312,7 +312,7 @@ open class RetryingOperation : Operation {
 	   MARK: - Private
 	   *************** */
 	
-	private enum State {
+	private enum State : Sendable {
 		
 		case inited
 		case running(Int) /* The value is the number of retries (0 for first try) */
