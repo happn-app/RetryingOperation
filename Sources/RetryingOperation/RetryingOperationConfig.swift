@@ -31,13 +31,13 @@ import Logging
  
  - Note: We allow the configuration for a generic `Logger` (from Apple’s swift-log repository), **and** an `OSLog` logger.
  We do this because Apple recommends using `OSLog` directly whenever possible for performance and privacy reason
- (see [swift-log’s Readme](https://github.com/apple/swift-log/blob/4f876718737f2c2b2ecd6d4cb4b99e0367b257a4/README.md) for more informations).
+  (see [swift-log’s Readme](https://github.com/apple/swift-log/blob/4f876718737f2c2b2ecd6d4cb4b99e0367b257a4/README.md) for more informations).
  
  The recommended configuration for Logging is to use `OSLog` when you can (you are on an Apple platform that supports `OSLog`) and `Logger` otherwise.
  You can also configure both if you want, though I’m not sure why that would be needed.
  
  In the future, OSLog’s API should be modified to match the swift-log’s one, and we’ll then probably drop the support for OSLog
- (because you’ll be able to use OSLog through Logging without any performance or privacy hit). */
+  (because you’ll be able to use OSLog through Logging without any performance or privacy hit). */
 public enum RetryingOperationConfig {
 	
 #if canImport(os)

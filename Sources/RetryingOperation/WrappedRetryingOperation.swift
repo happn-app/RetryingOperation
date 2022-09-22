@@ -20,11 +20,11 @@ import Foundation
 public protocol RetryableOperation : Operation {
 	
 	/* I’d like to add “where T : Self” so that clients of the protocol know ther're given an object kind of class Self,
-	 * but I get an error (swift4.2):
+	 *  but I get an error (swift4.2):
 	 *    Type ‘T’ constrainted to non-protocol, non-class type ‘Self’
 	 *
 	 * I could also remove the T type and set wrapper’s type to RetryableOperationWrapper<Self>,
-	 * but this forces the clients of the protocol to be final, so it is not ideal either… */
+	 *  but this forces the clients of the protocol to be final, so it is not ideal either… */
 	func retryHelpers<T>(from wrapper: RetryableOperationWrapper<T>) -> [RetryHelper]?
 	
 	/** Must return a valid retryable operation. You cannot return self here. */
@@ -34,8 +34,8 @@ public protocol RetryableOperation : Operation {
 
 
 /**
- An operation that can run an operation conforming to the ``RetryableOperation`` protocol and
- retry the operation depending on the protocol implementation. */
+ An operation that can run an operation conforming to the ``RetryableOperation`` protocol
+  and retry the operation depending on the protocol implementation. */
 public final class RetryableOperationWrapper<T> : RetryingOperation where T : RetryableOperation {
 	
 	public let originalBaseOperation: T

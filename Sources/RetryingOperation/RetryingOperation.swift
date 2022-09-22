@@ -30,10 +30,10 @@ import Logging
  An abstract class for retrying operations.
  The idea is to provide a clean and easy way to create retrying operations.
  For instance, if you make an operation to fetch some network resources,
- the operation might fail because there is no Internet right now.
+  the operation might fail because there is no Internet right now.
  However, Internet might be back soon!
  Instead of bothering your user by telling him there’s no net and he should retry,
- you might want to wait a few seconds and retry the request(s).
+  you might want to wait a few seconds and retry the request(s).
  
  The retrying operation class gives you a way to easily handle the retrying process.
  
@@ -45,20 +45,20 @@ import Logging
  In order to use it you must subclass it.
  
  Usually, when subclassing `Operation`, you either subclass `start()`, `executing`, `finished` and `asynchronous`
- if you want to write an asynchronous operation, or simply `main()` for synchronous operations.
+  if you want to write an asynchronous operation, or simply `main()` for synchronous operations.
  
  To subclass `RetryingOperation` correctly, you only have to subclass `startBaseOperation()` and `asynchronous`.
  In your implementation, you are responsible for starting your operation,
- but you do not have to worry about managing the `executing` and `finished` properties of the operation: they are managed for you.
+  but you do not have to worry about managing the `executing` and `finished` properties of the operation: they are managed for you.
  
  When your operation is finished, you must call `baseOperationEnded()`.
  The parameters you pass to this method will determine whether the operation should be retried and the retry delay.
  The method must be called even if the operation is finished because the operation was cancelled
- (even though the retry parameter is ignored if the operation is cancelled).
+  (even though the retry parameter is ignored if the operation is cancelled).
  Indeed, if your operation is synchronous, the method must be called before the `startBaseOperation()` returns…
  
  When your operation is in the process of waiting for a retry, you can call `retryNow()` or `retry(withHelpers:)`
- to bypass the current retry helpers and either retry now or setup new helpers.
+  to bypass the current retry helpers and either retry now or setup new helpers.
  _Note_: If the base operation is already running, never started or is finished when these methods are called,
  nothing is done, but a warning is printed in the logs.
  
@@ -66,7 +66,7 @@ import Logging
  Do **not** make any other assumptions thread-wise about these methods when you’re called.
  Also note you might not have a working run-loop.
  If you’re writing an asynchronous operation, you **must** leave the method as soon as possible,
- exactly like you’d do when overwriting `start()`.
+  exactly like you’d do when overwriting `start()`.
  
  ## What About Operations I Don’t Own?
  
@@ -196,8 +196,7 @@ open class RetryingOperation : Operation {
 	}
 	
 	/**
-	 - Warning: If you call this method with an empty array of retry helpers, the base operation will never be retrying
-	 (that is until retry is called again).
+	 - Warning: If you call this method with an empty array of retry helpers, the base operation will never be retrying (that is until retry is called again).
 	 But if you call this method with `nil`, the base operation is retried *now*. */
 	public final func retry(withHelpers helpers: [RetryHelper]?) {
 		retryQueue.async{ self._unsafeRetry(withHelpers: helpers) }
@@ -209,8 +208,7 @@ open class RetryingOperation : Operation {
 	
 	/**
 	 The entry point for subclasses.
-	 If your operation is not asynchronous, the operation must have finished by the time this method returns
-	 (`baseOperationEnded()` must have been called).
+	 If your operation is not asynchronous, the operation must have finished by the time this method returns (`baseOperationEnded()` must have been called).
 	 
 	 It is valid to call `baseOperationEnded` from the start operation.
 	 (For sync operations it is actually required.)
@@ -228,7 +226,7 @@ open class RetryingOperation : Operation {
 	 This should not happen _in general_, but because of race condition, it is _possible_ that it does.
 	 
 	 In general you should not have to overwrite this for synchronous operations
-	 (you should instead check the isCancelled property regularly).
+	  (you should instead check the isCancelled property regularly).
 	 The method will be called anyways; you can overwrite it even for synchronous operations.
 	 
 	 - Note: Do **NOT** call this manually, neither from a subclass or when using a retrying operation.
@@ -276,7 +274,7 @@ open class RetryingOperation : Operation {
 	
 	/* Since iOS 11, releasing a timer that has never been resumed crash.
 	 * So we need to set this entity as a class instead of a struct so we can have a “hasBeenResumed” var,
-	 * modified in `setup()` without a “mutating” modifier on the method… */
+	 *  modified in `setup()` without a “mutating” modifier on the method… */
 	public class TimerRetryHelper : RetryHelper {
 		
 		public init(retryDelay d: TimeInterval, retryingOperation: RetryingOperation) {
@@ -374,12 +372,12 @@ open class RetryingOperation : Operation {
 			if isAsynchronous {
 				/* https://github.com/apple/swift-corelibs-foundation/blob/swift-4.1.2-RELEASE/Foundation/Operation.swift
 				 * On Linux, the Foundation implementation differs from the close-source one we got on Apple’s platforms.
-				 * Mainly, the original implementation expected changes to isExecuting and isFinished to be KVO-compliant and
-				 * relied heavily on these notifications to act on the state of the operation.
+				 * Mainly, the original implementation expected changes to isExecuting and isFinished to be KVO-compliant
+				 *  and relied heavily on these notifications to act on the state of the operation.
 				 * In pure Swift (no ObjC-runtime), KVO is not available (yet?).
 				 * So a workaround has been implemented to mimic the old behaviour.
 				 * However this (among other implementation details) results in a dispatch_leave_group method to be called twice
-				 * (which triggers an assert and makes the program crash) for synchronous operations when we manually managed these properties.
+				 *  (which triggers an assert and makes the program crash) for synchronous operations when we manually managed these properties.
 				 * So for synchronous operations, the isExecuting and isFinished properties are managed by Operation itself. */
 				let newStateExecuting = newState.isRunningOrWaitingToRetry
 				let oldStateExecuting = retryingState.isRunningOrWaitingToRetry
@@ -457,7 +455,7 @@ open class RetryingOperation : Operation {
 				self.retryHelpers = nil
 				
 				/* If we’re waiting for a retry, the base operation will never notify us we’re over,
-				 * it’s up to us to say the operation has ended. */
+				 *  it’s up to us to say the operation has ended. */
 				self.retryingState = .finished
 			} else {
 				self.cancelBaseOperation()
