@@ -18,7 +18,7 @@ import RetryingOperation
 
 
 
-final class BasicAsynchronousRetryingOperation : RetryingOperation {
+final class BasicAsynchronousRetryingOperation : RetryingOperation, @unchecked /*Probably*/Sendable {
 	
 	let nRetries: Int
 	var checkStr = ""

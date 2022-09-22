@@ -18,7 +18,7 @@ import RetryingOperation
 
 
 
-final class CustomRetrySynchronousRetryingOperation : RetryingOperation {
+final class CustomRetrySynchronousRetryingOperation : RetryingOperation, @unchecked /*Probably*/Sendable {
 	
 	var checkStr = ""
 	let immediateCancellation: Bool
