@@ -33,6 +33,14 @@ public protocol RetryableOperation : Operation {
 }
 
 
+/* About Sendability conformance:
+ *   - AFAIK Operation is (implicitly) Sendable (doc says “The NSOperation class is itself multicore aware. It is therefore safe to call the methods of an NSOperation object from multiple threads without creating additional locks to synchronize access to the object.”);
+ *   - RetryableOperationWrapper inherits from RetryingOperation which is in the same state (not explicitly marked as Sendable because it’s not final and we cannot guarantee all subclasses will stay Sendable, but thread-safe like Operation);
+ *   - OperationQueue is also implicitly Sendable (doc says “You can safely use a single OperationQueue object from multiple threads without creating additional locks to synchronize access to that object.”);
+ *   - We take care of not mutating anything from the wrapper outside of locks (we only modify stuff in startBaseOperation which is called by RetryingOperation).
+ * All of this should be enough to say RetryableOperationWrapper is indeed Sendable when T is Sendable. */
+extension RetryableOperationWrapper : @unchecked Sendable where T : Sendable {}
+
 /**
  An operation that can run an operation conforming to the ``RetryableOperation`` protocol
   and retry the operation depending on the protocol implementation. */
