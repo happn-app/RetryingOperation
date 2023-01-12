@@ -354,8 +354,8 @@ open class RetryingOperation : Operation {
 	private var nRetries = 0
 	
 	private var retryHelpers: [RetryHelper]? {
-		willSet {retryHelpers?.forEach{ $0.teardown() }}
-		didSet  {retryHelpers?.forEach{ $0.setup() }}
+		willSet {retryHelpers?.forEach{ var mut = $0; mut.teardown() }}
+		didSet  {retryHelpers = retryHelpers?.map{ var ret = $0; ret.setup(); return ret }}
 	}
 	
 	private let retryStateSemaphore = DispatchSemaphore(value: 1)

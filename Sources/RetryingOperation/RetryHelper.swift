@@ -19,7 +19,7 @@ import Foundation
 
 public protocol RetryHelper {
 	
-	func setup()
-	func teardown()
+	mutating func setup()
+	mutating func teardown()
 	
 }
